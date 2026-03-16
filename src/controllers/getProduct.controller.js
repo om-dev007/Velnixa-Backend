@@ -53,3 +53,19 @@ export const getKidsProductController = async (req, res) => {
         product,
     })
 }
+
+export const getProductByCategory = async (req, res) => {
+    const {category} = req.query
+    const product = await productModel.find({category: category});
+
+    if(product.length <= 0) {
+        return res.status(404).json({
+            message: "Not found"
+        })
+    }
+
+    return res.status(200).json({
+        message: "Fetched all successfully",
+        product,
+    })
+}
