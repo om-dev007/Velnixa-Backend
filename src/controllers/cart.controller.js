@@ -84,3 +84,19 @@ export const addToCartController = async (req, res) => {
     });
   }
 };
+
+export const getCartController = async (req, res) => {
+    const cartProduct = await cartModel.find();
+
+    if(cartProduct.length <= 0) {
+        return res.status(404).json({
+            message: "Cart is empty please add something in cart "
+        })
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: "Cart item fetched successfully",
+        cartProduct,
+    })
+}
