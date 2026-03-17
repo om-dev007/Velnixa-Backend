@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDataProductController, getKidsProductController, getMenProductController, getPopularProductController, getProductByCategory, getProductController, getWomenProductController } from "../controllers/getProduct.controller.js";
+import { getDataProductController, getKidsProductController, getMenProductController, getPopularProductController, getProductByCategory, getProductById, getProductController, getWomenProductController } from "../controllers/getProduct.controller.js";
 
 const getProductRoutes = Router();
 
@@ -10,5 +10,6 @@ getProductRoutes.get("/men", getMenProductController)
 getProductRoutes.get("/women", getWomenProductController)
 getProductRoutes.get("/kids", getKidsProductController)
 getProductRoutes.get(`/filter`, getProductByCategory)
+getProductRoutes.get("/:id", getProductById)
 
 export default getProductRoutes
