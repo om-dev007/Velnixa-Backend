@@ -32,10 +32,10 @@ const productSchema = new mongoose.Schema({
     section: {
         type: String,
         enum: {
-            values: ["data", "collectionData", "men", "women", "kids"]
+            values: ["data", "collectionData", "men", "women", "kids", "newArrivals"]
         },
         required: [true, "Section is required for which page the image goes"]
     }
-})
+}, {timestamps: true})
 
 export const productModel = mongoose.model("product", productSchema);

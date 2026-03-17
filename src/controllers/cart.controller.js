@@ -86,17 +86,34 @@ export const addToCartController = async (req, res) => {
 };
 
 export const getCartController = async (req, res) => {
-    const cartProduct = await cartModel.find();
+  try {
 
-    if(cartProduct.length <= 0) {
-        return res.status(404).json({
-            message: "Cart is empty please add something in cart "
-        })
+    const userId = req.user._id;
+
+    const cart = await cartModel.findOne({ userId }).populate("items.productId");
+
+    if (!cart || cart.items.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart is empty, please add something"
+      });
     }
 
     return res.status(200).json({
-        success: true,
-        message: "Cart item fetched successfully",
-        cartProduct,
-    })
-}
+      success: true,
+      message: "Cart fetched successfully",
+      cart,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching cart",
+      error
+    });
+
+  }
+};
