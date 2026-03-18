@@ -19,6 +19,13 @@ const cartSchema = new mongoose.Schema({
             price: {
                 type: Number,
                 required: [true, "Price is required for storing that product"]
+            },
+            size: {
+                type: String,
+                enum: {
+                    values: ["S", "M", "L", "XL", "XXL"],
+                },
+                required: [true, "Size is required for storing that product"],
             }
         }
     ],
