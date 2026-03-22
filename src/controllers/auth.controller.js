@@ -66,9 +66,8 @@ export const logInUserController = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        secure: true,       // 🔥 required for https
+        sameSite: "None"    // 🔥 required for cross-site
     });
 
     return res.status(200).json({
@@ -79,16 +78,16 @@ export const logInUserController = async (req, res) => {
 
 export const logOutUserController = async (req, res) => {
 
-  res.cookie("token", "", {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    expires: new Date(0)
-  });
+    res.cookie("token", "", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        expires: new Date(0)
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Logged out successfully"
-  });
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully"
+    });
 
 };
