@@ -5,6 +5,8 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import productRoutes from './routes/product.routes.js';
 import getProductRoutes from './routes/getProduct.routes.js';
+import cartRoutes from './routes/cart.routes.js';
+import wishlistRouter from './routes/wishlist.routes.js';
 
 const app = e();
 
@@ -15,7 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/user/profile", userRoutes);
 app.use("/admin", productRoutes);
 app.use("/products", getProductRoutes);
-import cartRoutes from './routes/cart.routes.js';
 app.use("/cart", cartRoutes);
+app.use("/wishlist", wishlistRouter)
 
 export default app;
