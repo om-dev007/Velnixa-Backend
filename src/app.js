@@ -7,6 +7,7 @@ import productRoutes from './routes/product.routes.js';
 import getProductRoutes from './routes/getProduct.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import wishlistRouter from './routes/wishlist.routes.js';
+import HomeRoutes from "./routes/testing.routes.js";
 
 const app = e();
 
@@ -37,5 +38,6 @@ app.use("/admin", productRoutes);
 app.use("/products", getProductRoutes);
 app.use("/cart", cartRoutes);
 app.use("/wishlist", wishlistRouter)
+app.use("/", HomeRoutes);
 
 export default app;
