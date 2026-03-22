@@ -11,12 +11,24 @@ import wishlistRouter from './routes/wishlist.routes.js';
 const app = e();
 
 app.use(e.json());
-app.use(cors({
-  origin: [
+const allowedOrigins = [
     "http://localhost:5173",
     "https://velnixa.vercel.app"
-  ],
-  credentials: true
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS not allowed"));
+        }
+
+    },
+    credentials: true
 }));
 app.use(cookieParser())
 app.use("/api/auth", authRoutes);
