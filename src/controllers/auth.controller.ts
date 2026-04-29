@@ -86,10 +86,11 @@ export const logInUserController = async (req: Request, res: Response) => {
 
 export const logOutUserController = async (req: Request, res: Response) => {
 
-    res.cookie("token", "", {
+    res.clearCookie("token", {
         httpOnly: true,
         secure: true,
-        expires: new Date(0)
+        sameSite: "none",
+        path: "/"
     });
 
     res.status(200).json({
