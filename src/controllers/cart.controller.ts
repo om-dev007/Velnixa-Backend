@@ -1,6 +1,7 @@
 import { cartModel } from "../models/cart.model.ts";
 import { productModel } from "../models/product.model.ts";
 import { Request, Response } from "express";
+import { IResponse } from "../types/type.ts";
 
 export const addToCartController = async (req: Request, res: Response) => {
   try {
@@ -12,7 +13,7 @@ export const addToCartController = async (req: Request, res: Response) => {
       return res.status(400).json({
         success: false,
         message: "ProductId, size and quantity are required",
-      });
+      }as IResponse);
     }
 
     const product = await productModel.findById(productId);
@@ -21,7 +22,7 @@ export const addToCartController = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Product not found",
-      });
+      } as IResponse);
     }
 
     let cart = await cartModel.findOne({ userId });
@@ -43,8 +44,8 @@ export const addToCartController = async (req: Request, res: Response) => {
       return res.status(201).json({
         success: true,
         message: "Cart created and product added",
-        cart,
-      });
+        data: cart,
+      }as IResponse);
     }
 
     const itemIndex = cart.items.findIndex(
@@ -72,14 +73,13 @@ export const addToCartController = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Product added to cart",
-      cart,
-    });
+      data: cart,
+    }as IResponse);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Error in add to cart",
-      error,
+      message: "Error in add to cart"
     });
   }
 };
@@ -96,21 +96,21 @@ export const getCartController = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Cart is empty",
-      });
+      } as IResponse);
     }
 
     return res.status(200).json({
       success: true,
       message: "Cart fetched successfully",
-      cart,
-    });
+      data: cart,
+    } as IResponse);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
       message: "Error fetching cart",
-      error,
-    });
+      data: error,
+    } as IResponse);
   }
 };
 
@@ -125,7 +125,7 @@ export const deleteCartController = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Cart not found",
-      });
+      }as IResponse);
     }
 
     cart.items = cart.items.filter(
@@ -143,14 +143,14 @@ export const deleteCartController = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Item removed successfully",
-      cart,
-    });
+      data: cart,
+    } as IResponse);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
       message: "Error deleting item",
-    });
+    } as IResponse);
   }
 };
 
@@ -165,7 +165,7 @@ export const updateQuantityController = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Cart not found",
-      });
+      } as IResponse);
     }
 
     const itemIndex = cart.items.findIndex(
@@ -176,7 +176,7 @@ export const updateQuantityController = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Item not found",
-      });
+      }as IResponse);
     }
 
     if (action === "increase") {
@@ -200,14 +200,14 @@ export const updateQuantityController = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Quantity updated",
-      cart,
-    });
+      data: cart,
+    }as IResponse);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
       message: "Error updating quantity",
-      error,
-    });
+      data: error,
+    }as IResponse);
   }
 };

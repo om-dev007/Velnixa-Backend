@@ -1,6 +1,7 @@
 import { wishlistModel } from "../models/wishlist.model.ts";
 import { productModel } from "../models/product.model.ts";
 import { Request, Response } from "express";
+import { IResponse } from "../types/type.ts";
 
 export const toggleWishlistController = async (req: Request, res: Response) => {
   try {
@@ -12,7 +13,7 @@ export const toggleWishlistController = async (req: Request, res: Response) => {
       return res.status(404).send({
         success: false,
         message: "Product not found"
-      });
+      }as IResponse);
     }
 
     let wishlist = await wishlistModel.findOne({ userId });
@@ -26,8 +27,8 @@ export const toggleWishlistController = async (req: Request, res: Response) => {
       return res.status(201).send({
         success: true,
         message: "Product added to wishlist",
-        wishlist
-      });
+        data: wishlist
+      }as IResponse);
     }
 
     const index = wishlist.items.findIndex(
@@ -37,7 +38,7 @@ export const toggleWishlistController = async (req: Request, res: Response) => {
     if (index > -1) {
       wishlist.items.splice(index, 1);
     } else {
-      wishlist.items.push({ productId });
+      wishlist.items.push({ productId}as any);
     }
 
     await wishlist.save();
@@ -47,8 +48,8 @@ export const toggleWishlistController = async (req: Request, res: Response) => {
       message: index > -1
         ? "Product removed from wishlist"
         : "Product added to wishlist",
-      wishlist
-    });
+      data: wishlist
+    }as IResponse);
 
   } catch (error) {
     console.log(error);
@@ -56,7 +57,7 @@ export const toggleWishlistController = async (req: Request, res: Response) => {
       success: false,
       message: "Error in toggle wishlist",
       error
-    });
+    }as IResponse);
   }
 };
 
@@ -72,14 +73,15 @@ export const getWishlistController = async (req: Request, res: Response) => {
       return res.status(200).send({
         success: true,
         message: "Wishlist is empty",
-        wishlist: []
-      });
+        data: wishlist
+      } as IResponse);
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
-      wishlist
-    });
+      message: "Fetched wishlist item successfully",
+      data: wishlist
+    }as IResponse);
 
   } catch (error) {
     console.log(error);
@@ -102,7 +104,7 @@ export const removeFromWishlistController = async (req: Request, res: Response) 
       return res.status(404).send({
         success: false,
         message: "Wishlist not found"
-      });
+      }as IResponse);
     }
 
     wishlist.items = wishlist.items.filter(
@@ -111,18 +113,18 @@ export const removeFromWishlistController = async (req: Request, res: Response) 
 
     await wishlist.save();
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       message: "Product removed from wishlist",
-      wishlist
-    });
+      data: wishlist
+    }as IResponse);
 
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       message: "Error in removing product",
-      error
-    });
+      data: error
+    }as IResponse);
   }
 };

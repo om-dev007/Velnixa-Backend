@@ -1,13 +1,15 @@
 import { productModel } from "../models/product.model.ts";
 import { Request, Response } from "express";
+import { IResponse } from "../types/type.ts";
 
 export const createProductController = async (req: Request, res: Response) => {
     const {name, description, price, category, image, rating, section} = req.body;
 
     if(!name || !description || !price || !category || !image || !rating) {
         return res.status(400).json({
+            success: false,
             message: "All fields are required"
-        })
+        }as IResponse)
     }
 
     const product = await productModel.create({
@@ -22,12 +24,14 @@ export const createProductController = async (req: Request, res: Response) => {
 
     if(!product) {
         return res.status(500).json({
-            messsage: "Internal server error"
-        })
+            success: false,
+            message: "Internal server error"
+        }as IResponse)
     }
 
     return res.status(201).json({
+        success: true,
         message: "Product created successfully",
         product: product
-    })
+    } as IResponse)
 }

@@ -1,14 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { userModel } from "../models/user.model.ts";
 import jwt from 'jsonwebtoken';
+import { IResponse } from "../types/type.ts";
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
 
     if (!token) {
         return res.status(401).json({
+            success: false,
             message: "Unauthorized access, token is missing"
-        })
+        } as IResponse)
     }
 
     try {
@@ -24,7 +26,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
     } catch (err) {
         return res.status(401).json({
+            success: false,
             message: "Unauthorized access, token is invalid"
-        })
+        } as IResponse)
     }
 }

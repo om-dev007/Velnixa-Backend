@@ -1,41 +1,50 @@
 import {Schema, model} from "mongoose";
+import { ProductDocument } from "../types/type";
 
-const productSchema = new Schema({
+const productSchema = new Schema<ProductDocument>(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     category: {
-        type: String,
-        enum: {
-            values: ["MEN", "WOMEN", "KIDS"],
-            message: "Category can be either Men, Women or Kids"
-        },
-        required: true
+      type: String,
+      enum: ["MEN", "WOMEN", "KIDS"],
+      required: true,
     },
     image: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     rating: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     section: {
-        type: String,
-        enum: {
-            values: ["data", "collectionData", "men", "women", "kids", "newArrivals"]
-        },
-        required: [true, "Section is required for which page the image goes"]
-    }
-}, {timestamps: true})
+      type: String,
+      enum: [
+        "data",
+        "collectionData",
+        "men",
+        "women",
+        "kids",
+        "newArrivals",
+      ],
+      required: [true, "Section is required"],
+    },
+  },
+  { timestamps: true }
+);
 
-export const productModel = model("product", productSchema);
+export const productModel = model<ProductDocument>(
+  "product",
+  productSchema
+);

@@ -1,5 +1,6 @@
 import { userModel } from "../models/user.model.ts";
 import { Request, Response } from "express";
+import { IResponse } from "../types/type.ts";
 
 export const getUserController = async (req: Request, res: Response) => {
 
@@ -10,14 +11,16 @@ export const getUserController = async (req: Request, res: Response) => {
     
     if(!user) {
         return res.status(404).json({
+            success: false,
             message: "No user found"
-        })
+        }as IResponse)
     }
 
     return res.status(200).json({
+        success: true,
         message: "User fetched successfully",
-        user: user
-    })
+        data: user
+    }as IResponse)
 }
 
 export const updateUserController = async (req: Request, res: Response) => {
@@ -32,10 +35,10 @@ export const updateUserController = async (req: Request, res: Response) => {
     }, { new: true })
 
     return res.status(200).json({
+        success: true,
         message: "User profile updated",
-        user
-    })
-
+        data: user
+    } as IResponse)
 }
 
 export const deleteUserController = async (req: Request, res: Response) => {
@@ -44,13 +47,15 @@ export const deleteUserController = async (req: Request, res: Response) => {
     try {
         await userModel.findByIdAndDelete(id)
         return res.status(200).json({
+            success: true,
             message: "User deleted successfully"
-        })
+        } as IResponse)
     }
     catch (err) {
         console.log(err)
         return res.status(500).json({
+            success: false,
             message: "Internal server error"
-        })
+        } as IResponse)
     }
 }

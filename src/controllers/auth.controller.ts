@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { userModel } from "../models/user.model.ts";
 import bcrypt from "bcryptjs"
 import { Request, Response } from "express";
+import { IResponse } from "../types/type.ts";
 
 export const registerUserController = async (req: Request, res: Response) => {
     const { name, email, password, role } = req.body;
@@ -12,16 +13,18 @@ export const registerUserController = async (req: Request, res: Response) => {
      */
     if (!name || !email || !password) {
         return res.status(400).json({
+            success: false,
             message: "Please enter the all input fields"
-        })
+        }as IResponse)
     }
 
     const user = await userModel.findOne({ email })
 
     if (user) {
         return res.status(409).json({
+            success: false,
             message: "User already exist"
-        })
+        } as IResponse)
     }
 
     const hashPass = await bcrypt.hash(password, 10);
@@ -34,9 +37,10 @@ export const registerUserController = async (req: Request, res: Response) => {
     })
 
     return res.status(201).json({
+        success: true,
         message: "User registered successfully",
-        createUser
-    })
+        data: createUser
+    } as IResponse)
 }
 
 export const logInUserController = async (req: Request, res: Response) => {
@@ -47,16 +51,18 @@ export const logInUserController = async (req: Request, res: Response) => {
 
     if (!user) {
         return res.status(404).json({
+            success: false,
             message: "User not found"
-        })
+        } as IResponse)
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
         return res.status(401).json({
+            success: false,
             message: "Wrong password"
-        })
+        } as IResponse)
     }
 
     const token = jwt.sign({
@@ -67,13 +73,15 @@ export const logInUserController = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: true,       // 🔥 required for https
+        secure: false,
+        sameSite: "lax"
     });
 
     return res.status(200).json({
+        success: true,
         message: "User logged in successfully",
-        user: user
-    })
+        data: user
+    } as IResponse)
 }
 
 export const logOutUserController = async (req: Request, res: Response) => {
@@ -87,6 +95,6 @@ export const logOutUserController = async (req: Request, res: Response) => {
     res.status(200).json({
         success: true,
         message: "Logged out successfully"
-    });
+    } as IResponse);
 
 };
