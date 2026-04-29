@@ -1,9 +1,10 @@
-import {cartModel} from "../models/cart.model.js"
-import { productModel } from "../models/product.model.js";
+import { cartModel } from "../models/cart.model.ts";
+import { productModel } from "../models/product.model.ts";
+import { Request, Response } from "express";
 
-export const addToCartController = async (req, res) => {
+export const addToCartController = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { productId, quantity, size } = req.body;
     const qty = Number(quantity) || 1;
 
@@ -47,13 +48,11 @@ export const addToCartController = async (req, res) => {
     }
 
     const itemIndex = cart.items.findIndex(
-      item =>
-        item.productId.toString() === productId &&
-        item.size === size
+      (item) => item.productId.toString() === productId && item.size === size,
     );
 
     if (itemIndex > -1) {
-      cart.items[itemIndex].quantity += quantity;
+      cart.items[itemIndex]!.quantity += qty;
     } else {
       cart.items.push({
         productId: product._id,
@@ -65,7 +64,7 @@ export const addToCartController = async (req, res) => {
 
     cart.totalPrice = cart.items.reduce(
       (acc, item) => acc + item.price * item.quantity,
-      0
+      0,
     );
 
     await cart.save();
@@ -75,7 +74,6 @@ export const addToCartController = async (req, res) => {
       message: "Product added to cart",
       cart,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -86,10 +84,9 @@ export const addToCartController = async (req, res) => {
   }
 };
 
-export const getCartController = async (req, res) => {
+export const getCartController = async (req: Request, res: Response) => {
   try {
-
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
 
     const cart = await cartModel
       .findOne({ userId })
@@ -107,7 +104,6 @@ export const getCartController = async (req, res) => {
       message: "Cart fetched successfully",
       cart,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -118,13 +114,12 @@ export const getCartController = async (req, res) => {
   }
 };
 
-export const deleteCartController = async (req, res) => {
+export const deleteCartController = async (req: Request, res: Response) => {
   try {
+    const userId = (req as any).user._id;
+    const { productId, size } = req.params;
 
-    const userId = req.user._id;
-    const { productId, size } = req.params; // ✅ FIX
-
-    const cart = await cartModel.findOne({ userId });
+    let cart = await cartModel.findOne({ userId });
 
     if (!cart) {
       return res.status(404).json({
@@ -134,16 +129,13 @@ export const deleteCartController = async (req, res) => {
     }
 
     cart.items = cart.items.filter(
-      item =>
-        !(
-          item.productId.toString() === productId &&
-          item.size === size
-        )
-    );
+      (item) =>
+        !(item.productId.toString() === productId && item.size === size),
+    ) as any;
 
     cart.totalPrice = cart.items.reduce(
       (acc, item) => acc + item.price * item.quantity,
-      0
+      0,
     );
 
     await cart.save();
@@ -153,7 +145,6 @@ export const deleteCartController = async (req, res) => {
       message: "Item removed successfully",
       cart,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -163,10 +154,9 @@ export const deleteCartController = async (req, res) => {
   }
 };
 
-export const updateQuantityController = async (req, res) => {
+export const updateQuantityController = async (req: Request, res: Response) => {
   try {
-
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { productId, action, size } = req.body;
 
     const cart = await cartModel.findOne({ userId });
@@ -179,9 +169,7 @@ export const updateQuantityController = async (req, res) => {
     }
 
     const itemIndex = cart.items.findIndex(
-      item =>
-        item.productId.toString() === productId &&
-        item.size === size
+      (item) => item.productId.toString() === productId && item.size === size,
     );
 
     if (itemIndex === -1) {
@@ -192,20 +180,19 @@ export const updateQuantityController = async (req, res) => {
     }
 
     if (action === "increase") {
-      cart.items[itemIndex].quantity += 1;
+      cart.items[itemIndex]!.quantity += 1;
     }
 
     if (action === "decrease") {
-      cart.items[itemIndex].quantity -= 1;
+      cart.items[itemIndex]!.quantity -= 1;
 
-      if (cart.items[itemIndex].quantity <= 0) {
+      if (cart.items[itemIndex]!.quantity <= 0) {
         cart.items.splice(itemIndex, 1);
       }
     }
-
     cart.totalPrice = cart.items.reduce(
       (acc, item) => acc + item.price * item.quantity,
-      0
+      0,
     );
 
     await cart.save();
@@ -215,7 +202,6 @@ export const updateQuantityController = async (req, res) => {
       message: "Quantity updated",
       cart,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({

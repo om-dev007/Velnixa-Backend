@@ -1,7 +1,8 @@
-import { userModel } from "../models/user.model.js";
+import { NextFunction, Response, Request } from "express";
+import { userModel } from "../models/user.model.ts";
 import jwt from "jsonwebtoken";
 
-export const productMiddleware = async (req, res, next) => {
+export const productMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
     
     if(!token) {
@@ -11,9 +12,9 @@ export const productMiddleware = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
-        const user = await userModel.findById(decoded.id);
+        const user: any = await userModel.findById((decoded as any).id);
         
         if(user.role !== "ADMIN") {
             return res.status(409).json({

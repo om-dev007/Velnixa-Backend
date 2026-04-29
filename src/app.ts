@@ -1,13 +1,13 @@
 import e from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/auth.routes.js';
-import userRoutes from './routes/user.routes.js';
-import productRoutes from './routes/product.routes.js';
-import getProductRoutes from './routes/getProduct.routes.js';
-import cartRoutes from './routes/cart.routes.js';
-import wishlistRouter from './routes/wishlist.routes.js';
-import HomeRoutes from "./routes/testing.routes.js";
+import authRoutes from './routes/auth.routes.ts';
+import userRoutes from './routes/user.routes.ts';
+import productRoutes from './routes/product.routes.ts';
+import getProductRoutes from './routes/getProduct.routes.ts';
+import cartRoutes from './routes/cart.routes.ts';
+import wishlistRouter from './routes/wishlist.routes.ts';
+import HomeRoutes from "./routes/testing.routes.ts";
 
 const app = e();
 

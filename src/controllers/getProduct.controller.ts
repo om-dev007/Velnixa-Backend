@@ -1,6 +1,7 @@
-import { productModel } from "../models/product.model.js";
+import { productModel } from "../models/product.model.ts";
+import { Request, Response } from "express";
 
-export const getProductController = async (req, res) => {
+export const getProductController = async (req: Request, res: Response) => {
     const product = await productModel.find();
 
     return res.status(200).json({
@@ -9,7 +10,7 @@ export const getProductController = async (req, res) => {
     })
 }
 
-export const getDataProductController = async (req, res) => {
+export const getDataProductController = async (req: Request, res: Response) => {
     const product = await productModel.find({section: "data"})
     return res.status(200).json({
         message: "Data Product fetched successfully",
@@ -17,7 +18,7 @@ export const getDataProductController = async (req, res) => {
     })
 }
 
-export const getPopularProductController = async (req, res) => {
+export const getPopularProductController = async (req: Request, res: Response) => {
 
     const product = await productModel.find({section: "popular"})
 
@@ -27,7 +28,7 @@ export const getPopularProductController = async (req, res) => {
     })
 }
 
-export const getMenProductController = async (req, res) => {
+export const getMenProductController = async (req: Request, res: Response) => {
     const product = await productModel.find({section: "men"})
 
     return res.status(200).json({
@@ -36,7 +37,7 @@ export const getMenProductController = async (req, res) => {
     })
 }
 
-export const getWomenProductController = async (req, res) => {
+export const getWomenProductController = async (req: Request, res: Response) => {
     const product = await productModel.find({section: "women"})
 
     return res.status(200).json({
@@ -45,7 +46,7 @@ export const getWomenProductController = async (req, res) => {
     })
 }
 
-export const getKidsProductController = async (req, res) => {
+export const getKidsProductController = async (req: Request, res: Response) => {
     const product = await productModel.find({section: "kids"})
 
     return res.status(200).json({
@@ -54,9 +55,9 @@ export const getKidsProductController = async (req, res) => {
     })
 }
 
-export const getProductByCategory = async (req, res) => {
-    const {category} = req.query
-    const product = await productModel.find({category: category});
+export const getProductByCategory = async (req: Request, res: Response) => {
+    const category = req.query.category as "MEN" | "WOMEN" | "KIDS";
+    const product = await productModel.find({category});
 
     if(product.length <= 0) {
         return res.status(404).json({
@@ -70,7 +71,7 @@ export const getProductByCategory = async (req, res) => {
     })
 }
 
-export const getProductById = async (req, res) => {
+export const getProductById = async (req: Request, res: Response) => {
 
     const {id} = req.params;
 
@@ -88,7 +89,7 @@ export const getProductById = async (req, res) => {
     })
 }
 
-export const getNewArrivalProduct = async (req, res) => {
+export const getNewArrivalProduct = async (req: Request, res: Response) => {
     try {
         const products = await productModel.find({section: "newArrivals"})
 

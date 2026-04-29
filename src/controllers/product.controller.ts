@@ -1,6 +1,7 @@
-import { productModel } from "../models/product.model.js";
+import { productModel } from "../models/product.model.ts";
+import { Request, Response } from "express";
 
-export const createProductController = async (req, res) => {
+export const createProductController = async (req: Request, res: Response) => {
     const {name, description, price, category, image, rating, section} = req.body;
 
     if(!name || !description || !price || !category || !image || !rating) {

@@ -1,9 +1,10 @@
-import { wishlistModel } from "../models/wishlist.model.js";
-import { productModel } from "../models/product.model.js";
+import { wishlistModel } from "../models/wishlist.model.ts";
+import { productModel } from "../models/product.model.ts";
+import { Request, Response } from "express";
 
-export const toggleWishlistController = async (req, res) => {
+export const toggleWishlistController = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { productId } = req.body;
 
     const product = await productModel.findById(productId);
@@ -59,9 +60,9 @@ export const toggleWishlistController = async (req, res) => {
   }
 };
 
-export const getWishlistController = async (req, res) => {
+export const getWishlistController = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
 
     const wishlist = await wishlistModel
       .findOne({ userId })
@@ -90,9 +91,9 @@ export const getWishlistController = async (req, res) => {
   }
 };
 
-export const removeFromWishlistController = async (req, res) => {
+export const removeFromWishlistController = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { productId } = req.params;
 
     const wishlist = await wishlistModel.findOne({ userId });
@@ -106,7 +107,7 @@ export const removeFromWishlistController = async (req, res) => {
 
     wishlist.items = wishlist.items.filter(
       item => item.productId.toString() !== productId
-    );
+    ) as any;
 
     await wishlist.save();
 

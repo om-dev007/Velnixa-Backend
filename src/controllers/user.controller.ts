@@ -1,9 +1,10 @@
-import { userModel } from "../models/user.model.js";
+import { userModel } from "../models/user.model.ts";
+import { Request, Response } from "express";
 
-export const getUserController = async (req, res) => {
+export const getUserController = async (req: Request, res: Response) => {
 
-    const id = req.id;
-    const role = req.role
+    const id = (req as any).id;
+    const role = (req as any).role
 
     const user = await userModel.findById(id);
     
@@ -19,7 +20,7 @@ export const getUserController = async (req, res) => {
     })
 }
 
-export const updateUserController = async (req, res) => {
+export const updateUserController = async (req: Request, res: Response) => {
     const {name, email} = req.body;
     const id = req.params.id;
 
@@ -37,7 +38,7 @@ export const updateUserController = async (req, res) => {
 
 }
 
-export const deleteUserController = async (req, res) => {
+export const deleteUserController = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     try {

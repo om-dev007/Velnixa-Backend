@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
-import { userModel } from "../models/user.model.js";
+import { userModel } from "../models/user.model.ts";
 import bcrypt from "bcryptjs"
+import { Request, Response } from "express";
 
-export const registerUserController = async (req, res) => {
+export const registerUserController = async (req: Request, res: Response) => {
     const { name, email, password, role } = req.body;
 
     /**
@@ -38,7 +39,7 @@ export const registerUserController = async (req, res) => {
     })
 }
 
-export const logInUserController = async (req, res) => {
+export const logInUserController = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({
         $or: [{ email: email }]
@@ -62,12 +63,11 @@ export const logInUserController = async (req, res) => {
         id: user._id,
         email: user.email,
         role: user.role
-    }, process.env.JWT_SECRET, { expiresIn: "3d" })
+    }, process.env.JWT_SECRET as string, { expiresIn: "3d" })
 
     res.cookie("token", token, {
         httpOnly: true,
         secure: true,       // 🔥 required for https
-        sameSite: "None"    // 🔥 required for cross-site
     });
 
     return res.status(200).json({
@@ -76,12 +76,11 @@ export const logInUserController = async (req, res) => {
     })
 }
 
-export const logOutUserController = async (req, res) => {
+export const logOutUserController = async (req: Request, res: Response) => {
 
     res.cookie("token", "", {
         httpOnly: true,
         secure: true,
-        sameSite: "None",
         expires: new Date(0)
     });
 
