@@ -7,7 +7,7 @@ import router from './routes/index';
 const app = e();
 
 const corsOption = {
-    origin: ["http://localhost:5173", "https://velnixa.vercel.app/"],
+    origin: ["https://velnixa.vercel.app/"],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
