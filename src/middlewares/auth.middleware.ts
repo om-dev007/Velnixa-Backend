@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { userModel } from "../models/user.model.ts";
+import { userModel } from "../models/user.model";
 import jwt from 'jsonwebtoken';
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];

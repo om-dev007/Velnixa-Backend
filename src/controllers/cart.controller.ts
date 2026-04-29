@@ -1,7 +1,7 @@
-import { cartModel } from "../models/cart.model.ts";
-import { productModel } from "../models/product.model.ts";
+import { cartModel } from "../models/cart.model";
+import { productModel } from "../models/product.model";
 import { Request, Response } from "express";
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const addToCartController = async (req: Request, res: Response) => {
   try {

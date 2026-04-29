@@ -1,6 +1,6 @@
-import { userModel } from "../models/user.model.ts";
+import { userModel } from "../models/user.model";
 import { Request, Response } from "express";
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const getUserController = async (req: Request, res: Response) => {
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDataProductController, getKidsProductController, getMenProductController, getNewArrivalProduct, getPopularProductController, getProductByCategory, getProductById, getProductController, getWomenProductController } from "../controllers/getProduct.controller.ts";
+import { getDataProductController, getKidsProductController, getMenProductController, getNewArrivalProduct, getPopularProductController, getProductByCategory, getProductById, getProductController, getWomenProductController } from "../controllers/getProduct.controller";
 
 const getProductRoutes = Router();
 

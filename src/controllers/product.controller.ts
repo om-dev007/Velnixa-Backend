@@ -1,6 +1,6 @@
-import { productModel } from "../models/product.model.ts";
+import { productModel } from "../models/product.model";
 import { Request, Response } from "express";
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const createProductController = async (req: Request, res: Response) => {
     const {name, description, price, category, image, rating, section} = req.body;

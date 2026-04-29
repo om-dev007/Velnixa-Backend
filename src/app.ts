@@ -1,8 +1,8 @@
 import e from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import HomeRoutes from "./routes/testing.routes.ts";
-import router from './routes/index.ts';
+import HomeRoutes from "./routes/testing.routes";
+import router from './routes/index';
 
 const app = e();
 

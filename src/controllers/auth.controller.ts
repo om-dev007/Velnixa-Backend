@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { userModel } from "../models/user.model.ts";
+import { userModel } from "../models/user.model";
 import bcrypt from "bcryptjs"
 import { Request, Response } from "express";
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const registerUserController = async (req: Request, res: Response) => {
     const { name, email, password, role } = req.body;

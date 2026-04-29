@@ -3,8 +3,8 @@ import {
   toggleWishlistController,
   getWishlistController,
   removeFromWishlistController
-} from "../controllers/wishlist.controller.ts";
-import { authMiddleware } from "../middlewares/auth.middleware.ts";
+} from "../controllers/wishlist.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const wishlistRouter = Router();
 

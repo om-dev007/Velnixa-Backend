@@ -1,6 +1,6 @@
-import { productModel } from "../models/product.model.ts";
+import { productModel } from "../models/product.model";
 import { Request, Response } from "express";
-import { IResponse } from "../types/type.ts";
+import { IResponse } from "../types/type";
 
 export const getProductController = async (req: Request, res: Response) => {
     const product = await productModel.find();
