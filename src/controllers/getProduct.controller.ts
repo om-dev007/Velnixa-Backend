@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { IResponse } from "../types/type";
 
 export const getProductController = async (req: Request, res: Response) => {
-    const product = await productModel.find();
+    const product = await productModel.find().lean()
 
     return res.status(200).json({
         success: true,
@@ -13,7 +13,7 @@ export const getProductController = async (req: Request, res: Response) => {
 }
 
 export const getDataProductController = async (req: Request, res: Response) => {
-    const product = await productModel.find({section: "data"})
+    const product = await productModel.find({section: "data"}).lean()
     return res.status(200).json({
         success: true,
         message: "Data Product fetched successfully",
@@ -33,7 +33,7 @@ export const getPopularProductController = async (req: Request, res: Response) =
 }
 
 export const getMenProductController = async (req: Request, res: Response) => {
-    const product = await productModel.find({section: "men"})
+    const product = await productModel.find({section: "men"}).lean()
 
     return res.status(200).json({
         success: true,
@@ -43,7 +43,7 @@ export const getMenProductController = async (req: Request, res: Response) => {
 }
 
 export const getWomenProductController = async (req: Request, res: Response) => {
-    const product = await productModel.find({section: "women"})
+    const product = await productModel.find({section: "women"}).lean()
 
     return res.status(200).json({
         success: true,
@@ -53,7 +53,7 @@ export const getWomenProductController = async (req: Request, res: Response) => 
 }
 
 export const getKidsProductController = async (req: Request, res: Response) => {
-    const product = await productModel.find({section: "kids"})
+    const product = await productModel.find({section: "kids"}).lean()
 
     return res.status(200).json({
         success: true,
@@ -84,7 +84,7 @@ export const getProductById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const product = await productModel.findById(id);
+    const product = await productModel.findById(id).lean();
 
     if (!product) {
       return res.status(404).json({
