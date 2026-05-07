@@ -111,7 +111,7 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const getNewArrivalProduct = async (req: Request, res: Response) => {
     try {
-        const products = await productModel.find({section: "newArrivals"})
+        const products = await productModel.find({section: "newArrivals"}).lean()
 
         return res.status(200).json({
             success: true,
