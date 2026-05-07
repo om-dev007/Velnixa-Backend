@@ -9,7 +9,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     if (!token) {
         return res.status(401).json({
             success: false,
-            message: "Unauthorized access, token is missing"
+            message: "Please login first"
         } as IResponse)
     }
 

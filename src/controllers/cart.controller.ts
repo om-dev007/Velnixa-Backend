@@ -5,14 +5,17 @@ import { IResponse } from "../types/type";
 
 export const addToCartController = async (req: Request, res: Response) => {
   try {
+
     const userId = (req as any).user._id;
+
     const { productId, quantity, size } = req.body;
+
     const qty = Number(quantity) || 1;
 
     if (!productId || !size) {
       return res.status(400).json({
         success: false,
-        message: "ProductId, size and quantity are required",
+        message: "ProductId and size  are required",
       }as IResponse);
     }
 

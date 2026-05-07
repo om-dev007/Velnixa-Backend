@@ -9,7 +9,7 @@ export const productMiddleware = async (req: Request, res: Response, next: NextF
     if(!token) {
         return res.status(409).json({
             success: false,
-            message: "Token missing you cann't create product"
+            message: "Please login first"
         } as IResponse)
     }
 
